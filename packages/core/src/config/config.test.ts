@@ -400,11 +400,12 @@ describe('Server Config (config.ts)', () => {
     const workspaceContext = config.getWorkspaceContext();
     const directories = workspaceContext.getDirectories();
 
-    // Should include the target directory plus the included directories
-    expect(directories).toHaveLength(3);
+    // Should include only the target directory initially
+    expect(directories).toHaveLength(1);
     expect(directories).toContain(path.resolve(baseParams.targetDir));
-    expect(directories).toContain('/path/to/dir1');
-    expect(directories).toContain('/path/to/dir2');
+
+    // The other directories should be in the pending list
+    expect(config.getPendingIncludeDirectories()).toEqual(includeDirectories);
   });
 
   it('Config constructor should set telemetry to true when provided as true', () => {
